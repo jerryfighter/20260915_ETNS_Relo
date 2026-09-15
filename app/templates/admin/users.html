@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Manage Users - Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3">Manage Users</h2>
+  <form method="get" class="d-flex gap-2 mb-3" style="max-width: 400px;">
+    <input type="text" name="q" class="form-control" placeholder="Search by email or nickname" value="{{ query }}">
+    <button type="submit" class="btn btn-outline-secondary">Search</button>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table bg-white">
+      <thead><tr><th>Email</th><th>Nickname</th><th>Nationality</th><th>Status</th><th>Joined</th><th>Action</th></tr></thead>
+      <tbody>
+        {% for u in users %}
+          <tr>
+            <td>{{ u.email }}</td>
+            <td>{{ u.nickname }}{% if u.is_admin %} <span class="badge bg-dark">Admin</span>{% endif %}</td>
+            <td>{{ u.nationality or '-' }}</td>
+            <td>
+              {% if u.is_active_user %}
+                <span class="badge bg-success">Active</span>
+              {% else %}
+                <span class="badge bg-secondary">Suspended</span>
+              {% endif %}
+            </td>
+            <td>{{ u.created_at.strftime('%Y-%m-%d') }}</td>
+            <td>
+              {% if u.is_active_user %}
+                <form method="post" action="{{ url_for('admin.suspend_user', user_id=u.id) }}" onsubmit="return confirm('Suspend this user?');">
+                  <button class="btn btn-sm btn-outline-danger">Suspend</button>
+                </form>
+              {% else %}
+                <form method="post" action="{{ url_for('admin.activate_user', user_id=u.id) }}">
+                  <button class="btn btn-sm btn-outline-success">Activate</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="6" class="text-muted">No users found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Write a Review - {{ area.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-1">Write a Review</h2>
+  <p class="text-muted mb-4">Share your real experience living in <strong>{{ area.name }}</strong>.</p>
+  <div class="card p-4">
+    {% set review = none %}
+    {% set submit_label = "Submit Review" %}
+    {% include "review/_form.html" %}
+  </div>
+</div>
+{% endblock %}

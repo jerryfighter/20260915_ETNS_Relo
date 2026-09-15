@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Compare Areas - Expat Review Korea{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3">Compare Areas</h2>
+  <p class="text-muted">Select up to 3 areas to compare side by side.</p>
+
+  <form method="get" class="row g-2 mb-4 align-items-end">
+    {% for i in range(3) %}
+      <div class="col-md-3">
+        <label class="form-label small">Area {{ i + 1 }}</label>
+        <select name="area{{ i }}" class="form-select">
+          <option value="">-- none --</option>
+          {% for a in all_areas %}
+            <option value="{{ a.id }}" {% if areas[i] is defined and areas[i].id == a.id %}selected{% endif %}>{{ a.name }} ({{ a.city }})</option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endfor %}
+    <div class="col-md-3">
+      <button type="button" id="compareBtn" class="btn text-white w-100" style="background-color: var(--brand-primary);">Compare</button>
+    </div>
+  </form>
+
+  {% if areas %}
+    <div class="table-responsive">
+      <table class="table compare-table bg-white">
+        <thead>
+          <tr>
+            <th>Area</th>
+            {% for area in areas %}
+              <th><a href="{{ url_for('area.detail', area_id=area.id) }}">{{ area.name }}</a><br><span class="text-muted small">{{ area.city }}</span></th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% set metrics = [
+            ('Overall', 'overall_rating'),
+            ('Transportation', 'transportation_rating'),
+            ('Safety', 'safety_rating'),
+            ('Daily Life', 'daily_life_rating'),
+            ('Housing', 'housing_rating'),
+            ('Education', 'education_rating'),
+            ('Expat Life', 'expat_rating'),
+          ] %}
+          {% for label, field in metrics %}
+            <tr>
+              <td>{{ label }}</td>
+              {% for area in areas %}
+                <td>{{ '%.1f' | format(area.average_ratings()[field]) }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+          <tr>
+            <td>Reviews</td>
+            {% for area in areas %}
+              <td>{{ area.review_count() }}</td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-muted">Choose areas above to see a side-by-side comparison.</p>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('compareBtn').addEventListener('click', function () {
+  const ids = [];
+  document.querySelectorAll('select[name^="area"]').forEach(function (sel) {
+    if (sel.value) ids.push(sel.value);
+  });
+  window.location.href = "{{ url_for('area.compare') }}?ids=" + ids.join(',');
+});
+</script>
+{% endblock %}

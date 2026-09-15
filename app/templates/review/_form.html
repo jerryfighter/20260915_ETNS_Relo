@@ -1,0 +1,96 @@
+{% macro star_input(name, current=0) %}
+<div class="star-input" data-field="{{ name }}">
+  {% for i in [5, 4, 3, 2, 1] %}
+    <input type="radio" name="{{ name }}" id="{{ name }}_{{ i }}" value="{{ i }}" class="btn-check"
+           {% if current|string == i|string %}checked{% endif %} required>
+    <label for="{{ name }}_{{ i }}">★</label>
+  {% endfor %}
+</div>
+{% endmacro %}
+
+<form method="post">
+  <h5 class="mt-2 mb-3">Residence Details</h5>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Move-in Date</label>
+      <input type="date" name="move_in_date" class="form-control" value="{{ review.move_in_date if review else (form.move_in_date or '') }}" required>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Move-out Date <span class="text-muted small">(leave blank if still living there)</span></label>
+      <input type="date" name="move_out_date" class="form-control" value="{{ review.move_out_date if review else (form.move_out_date or '') }}">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Family Composition</label>
+      <select name="family_type" class="form-select" required>
+        {% set current_family = review.family_type if review else form.family_type %}
+        {% for ft in FAMILY_TYPES %}
+          <option value="{{ ft }}" {% if current_family == ft %}selected{% endif %}>{{ ft }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label d-block">Children</label>
+      <div class="form-check form-switch mt-2">
+        <input type="checkbox" name="has_children" class="form-check-input" id="has_children"
+               {% if (review and review.has_children) or (form.has_children) %}checked{% endif %}>
+        <label class="form-check-label" for="has_children">Have children</label>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label d-block">Car</label>
+      <div class="form-check form-switch mt-2">
+        <input type="checkbox" name="has_car" class="form-check-input" id="has_car"
+               {% if (review and review.has_car) or (form.has_car) %}checked{% endif %}>
+        <label class="form-check-label" for="has_car">Own a car</label>
+      </div>
+    </div>
+  </div>
+  <div class="mb-4">
+    <label class="form-label">Work Location</label>
+    <input type="text" name="work_location" class="form-control" placeholder="e.g. Gangnam"
+           value="{{ review.work_location if review else (form.work_location or '') }}">
+  </div>
+
+  <h5 class="mb-3">Ratings <span class="text-muted small fw-normal">(1-5 stars)</span></h5>
+  <div class="row mb-4">
+    {% set rating_labels = [
+      ('overall_rating', 'Overall Satisfaction'),
+      ('transportation_rating', 'Transportation'),
+      ('daily_life_rating', 'Daily Life Convenience'),
+      ('safety_rating', 'Safety'),
+      ('housing_rating', 'Housing Environment'),
+      ('education_rating', 'Education'),
+      ('expat_rating', 'Expat Life Convenience'),
+    ] %}
+    {% for field, label in rating_labels %}
+      <div class="col-md-6 mb-3">
+        <label class="form-label d-block">{{ label }}</label>
+        {{ star_input(field, review[field] if review else form.get(field)) }}
+      </div>
+    {% endfor %}
+  </div>
+
+  <h5 class="mb-3">Your Experience</h5>
+  <div class="mb-3">
+    <label class="form-label">What did you like about this area?</label>
+    <textarea name="positive_comment" class="form-control" rows="3">{{ review.positive_comment if review else (form.positive_comment or '') }}</textarea>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">What was inconvenient?</label>
+    <textarea name="negative_comment" class="form-control" rows="3">{{ review.negative_comment if review else (form.negative_comment or '') }}</textarea>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Additional comments</label>
+    <textarea name="additional_comment" class="form-control" rows="2">{{ review.additional_comment if review else (form.additional_comment or '') }}</textarea>
+  </div>
+  <div class="form-check mb-4">
+    <input type="checkbox" name="would_recommend" class="form-check-input" id="would_recommend"
+           {% if review and not review.would_recommend %}{% else %}checked{% endif %}>
+    <label class="form-check-label" for="would_recommend">I would recommend this area to other expats</label>
+  </div>
+
+  <button type="submit" class="btn text-white" style="background-color: var(--brand-primary);">{{ submit_label }}</button>
+  <a href="{{ url_for('area.detail', area_id=area.id) }}" class="btn btn-link">Cancel</a>
+</form>

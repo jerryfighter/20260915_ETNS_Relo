@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Manage Reports - Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3">Manage Reports</h2>
+
+  <div class="btn-group mb-3">
+    <a href="{{ url_for('admin.reports', status='pending') }}" class="btn btn-outline-secondary {% if status_filter == 'pending' %}active{% endif %}">Pending</a>
+    <a href="{{ url_for('admin.reports', status='resolved') }}" class="btn btn-outline-secondary {% if status_filter == 'resolved' %}active{% endif %}">Resolved</a>
+    <a href="{{ url_for('admin.reports', status='dismissed') }}" class="btn btn-outline-secondary {% if status_filter == 'dismissed' %}active{% endif %}">Dismissed</a>
+    <a href="{{ url_for('admin.reports', status='all') }}" class="btn btn-outline-secondary {% if status_filter == 'all' %}active{% endif %}">All</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table bg-white align-middle">
+      <thead><tr><th>Review</th><th>Reason</th><th>Detail</th><th>Status</th><th>Reported</th><th>Action</th></tr></thead>
+      <tbody>
+        {% for rep in reports %}
+          <tr>
+            <td><a href="{{ url_for('area.detail', area_id=rep.review.area_id) }}">Review #{{ rep.review_id }}</a></td>
+            <td>{{ rep.reason }}</td>
+            <td class="small text-muted">{{ rep.detail or '-' }}</td>
+            <td>
+              {% if rep.status == 'pending' %}<span class="badge bg-warning text-dark">Pending</span>
+              {% elif rep.status == 'resolved' %}<span class="badge bg-success">Resolved</span>
+              {% else %}<span class="badge bg-secondary">Dismissed</span>{% endif %}
+            </td>
+            <td>{{ rep.created_at.strftime('%Y-%m-%d') }}</td>
+            <td class="d-flex gap-1">
+              {% if rep.status == 'pending' %}
+                <form method="post" action="{{ url_for('admin.resolve_report', report_id=rep.id) }}">
+                  <button class="btn btn-sm btn-outline-success">Resolve</button>
+                </form>
+                <form method="post" action="{{ url_for('admin.dismiss_report', report_id=rep.id) }}">
+                  <button class="btn btn-sm btn-outline-secondary">Dismiss</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="6" class="text-muted">No reports found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

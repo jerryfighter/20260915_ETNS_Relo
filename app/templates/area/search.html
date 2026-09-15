@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block title %}Browse Areas - Expat Review Korea{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3">Browse Areas</h2>
+  <form method="get" class="d-flex gap-2 mb-4" style="max-width: 480px;">
+    <input type="text" name="q" class="form-control" placeholder="Search a city or neighborhood" value="{{ query }}">
+    <button type="submit" class="btn btn-outline-secondary">Search</button>
+  </form>
+
+  {% if areas %}
+    <div class="row">
+      {% for area in areas %}
+        {{ m.area_card(area) }}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">No areas match your search.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+{% block title %}Expat Review Korea - Find your neighborhood{% endblock %}
+
+{% block content %}
+<section class="hero text-center">
+  <div class="container">
+    <h1>Find a place that feels right for you.</h1>
+    <p class="lead">Real reviews from expats who actually lived in Korea.</p>
+  </div>
+</section>
+
+<div class="container">
+  <div class="card search-card mx-auto p-4" style="max-width: 640px;">
+    <form method="get" action="{{ url_for('main.index') }}" class="d-flex gap-2">
+      <input type="text" name="q" class="form-control form-control-lg" placeholder="Search a city or neighborhood"
+             value="{{ query }}" autofocus>
+      <button type="submit" class="btn btn-lg text-white" style="background-color: var(--brand-primary);">Search</button>
+    </form>
+  </div>
+
+  {% if query %}
+    <div class="mt-5">
+      <h4>Search results for "{{ query }}"</h4>
+      {% if results %}
+        <div class="row mt-3">
+          {% for area in results %}
+            {{ m.area_card(area) }}
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-muted">No areas found. Try a different search term, or <a href="{{ url_for('area.search') }}">browse all areas</a>.</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="mt-5 mb-5">
+    <h4 class="mb-3">Popular Areas</h4>
+    <div class="d-flex flex-wrap gap-2">
+      {% for area in popular %}
+        <a class="popular-tag" href="{{ url_for('area.detail', area_id=area.id) }}">{{ area.name }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-md-4 text-center mb-3">
+      <h5>🏠 Real Residents Only</h5>
+      <p class="text-muted">Reviews come from expats who actually lived in the area, not tourists or agents.</p>
+    </div>
+    <div class="col-md-4 text-center mb-3">
+      <h5>👨‍👩‍👧 Match Your Situation</h5>
+      <p class="text-muted">Filter reviews by family type, children, car ownership and work location.</p>
+    </div>
+    <div class="col-md-4 text-center mb-3">
+      <h5>✅ Verified Residents</h5>
+      <p class="text-muted">Admin-verified reviews are clearly marked so you know who to trust.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

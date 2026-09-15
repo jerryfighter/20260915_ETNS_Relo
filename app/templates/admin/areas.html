@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Manage Areas - Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3">Manage Areas</h2>
+
+  <div class="card p-3 mb-4" style="max-width: 640px;">
+    <h6>Add New Area</h6>
+    <form method="post" action="{{ url_for('admin.create_area') }}">
+      <div class="row g-2">
+        <div class="col-md-4"><input type="text" name="name" class="form-control" placeholder="Area name" required></div>
+        <div class="col-md-4"><input type="text" name="city" class="form-control" placeholder="City" required></div>
+        <div class="col-md-4"><input type="text" name="district" class="form-control" placeholder="District (optional)"></div>
+      </div>
+      <textarea name="description" class="form-control mt-2" rows="2" placeholder="Short description (optional)"></textarea>
+      <button type="submit" class="btn btn-sm text-white mt-2" style="background-color: var(--brand-primary);">Add Area</button>
+    </form>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table bg-white align-middle">
+      <thead><tr><th>Name</th><th>City</th><th>District</th><th>Reviews</th><th>Action</th></tr></thead>
+      <tbody>
+        {% for area in areas %}
+          <tr>
+            <td>{{ area.name }}</td>
+            <td>{{ area.city }}</td>
+            <td>{{ area.district or '-' }}</td>
+            <td><a href="{{ url_for('area.detail', area_id=area.id) }}">{{ area.review_count() }}</a></td>
+            <td>
+              <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#editArea{{ area.id }}">Edit</button>
+              <form method="post" action="{{ url_for('admin.delete_area', area_id=area.id) }}" class="d-inline"
+                    onsubmit="return confirm('Delete this area and all its reviews?');">
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+          <div class="modal fade" id="editArea{{ area.id }}" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form method="post" action="{{ url_for('admin.edit_area', area_id=area.id) }}">
+                  <div class="modal-header"><h5 class="modal-title">Edit {{ area.name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+                  <div class="modal-body">
+                    <input type="text" name="name" class="form-control mb-2" value="{{ area.name }}" required>
+                    <input type="text" name="city" class="form-control mb-2" value="{{ area.city }}" required>
+                    <input type="text" name="district" class="form-control mb-2" value="{{ area.district or '' }}">
+                    <textarea name="description" class="form-control" rows="2">{{ area.description or '' }}</textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn text-white" style="background-color: var(--brand-primary);">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <tr><td colspan="5" class="text-muted">No areas yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Area Recommendations - Expat Review Korea{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-1">Find Your Match</h2>
+  <p class="text-muted mb-4">Tell us what matters most to you, and we'll suggest areas based on real resident ratings.</p>
+
+  <div class="card p-4 mb-4" style="max-width: 560px;">
+    <form method="post">
+      <label class="form-label">What matters most to you? <span class="text-muted small">(select any)</span></label>
+      {% set labels = {
+        'safety': 'Safety',
+        'transportation': 'Transportation',
+        'education': 'Education',
+        'housing': 'Housing Environment',
+        'daily_life': 'Daily Life Convenience',
+        'expat_life': 'Expat Life Convenience',
+      } %}
+      {% for key in priority_options %}
+        <div class="form-check">
+          <input type="checkbox" name="priorities" value="{{ key }}" class="form-check-input" id="p_{{ key }}"
+                 {% if key in selected_priorities %}checked{% endif %}>
+          <label class="form-check-label" for="p_{{ key }}">{{ labels.get(key, key) }}</label>
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn text-white mt-3" style="background-color: var(--brand-primary);">Get Recommendations</button>
+    </form>
+  </div>
+
+  {% if recommendations is not none %}
+    <h4 class="mb-3">Recommended Areas</h4>
+    {% if recommendations %}
+      <ol class="list-group list-group-numbered" style="max-width: 560px;">
+        {% for r in recommendations %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{{ url_for('area.detail', area_id=r.area.id) }}">{{ r.area.name }} <span class="text-muted">({{ r.area.city }})</span></a>
+            <span class="badge bg-primary rounded-pill">Match {{ r.match_score }}%</span>
+          </li>
+        {% endfor %}
+      </ol>
+    {% else %}
+      <p class="text-muted">No areas have reviews yet to base a recommendation on.</p>
+    {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

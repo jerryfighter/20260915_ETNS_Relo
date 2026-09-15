@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Manage Reviews - Admin{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3">Manage Reviews</h2>
+
+  <div class="btn-group mb-3">
+    <a href="{{ url_for('admin.reviews', status='all') }}" class="btn btn-outline-secondary {% if status_filter == 'all' %}active{% endif %}">All</a>
+    <a href="{{ url_for('admin.reviews', status='verified') }}" class="btn btn-outline-secondary {% if status_filter == 'verified' %}active{% endif %}">Verified</a>
+    <a href="{{ url_for('admin.reviews', status='unverified') }}" class="btn btn-outline-secondary {% if status_filter == 'unverified' %}active{% endif %}">Unverified</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table bg-white align-middle">
+      <thead><tr><th>Area</th><th>Author</th><th>Rating</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+      <tbody>
+        {% for r in reviews %}
+          <tr>
+            <td><a href="{{ url_for('area.detail', area_id=r.area_id) }}">{{ r.area.name }}</a></td>
+            <td>{{ r.author.anonymized_profile() }}</td>
+            <td>{{ r.overall_rating }} ★</td>
+            <td>
+              {% if r.is_verified %}<span class="badge badge-verified">Verified</span>{% else %}<span class="badge badge-resident">Resident</span>{% endif %}
+            </td>
+            <td>{{ r.created_at.strftime('%Y-%m-%d') }}</td>
+            <td class="d-flex gap-1">
+              {% if r.is_verified %}
+                <form method="post" action="{{ url_for('admin.unverify_review', review_id=r.id) }}">
+                  <button class="btn btn-sm btn-outline-secondary">Unverify</button>
+                </form>
+              {% else %}
+                <form method="post" action="{{ url_for('admin.verify_review', review_id=r.id) }}">
+                  <button class="btn btn-sm btn-outline-success">Verify</button>
+                </form>
+              {% endif %}
+              <form method="post" action="{{ url_for('admin.delete_review', review_id=r.id) }}" onsubmit="return confirm('Delete this review?');">
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="6" class="text-muted">No reviews found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

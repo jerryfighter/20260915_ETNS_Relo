@@ -1,0 +1,30 @@
+{% macro stars(value) -%}
+{%- set full = value | round(0, 'floor') | int -%}
+<span class="stars">{{ '★' * full }}{{ '☆' * (5 - full) }}</span>
+{%- endmacro %}
+
+{% macro area_card(area) -%}
+{%- set ratings = area.average_ratings() -%}
+<div class="col-md-4 mb-4">
+  <a href="{{ url_for('area.detail', area_id=area.id) }}" class="text-decoration-none text-reset">
+    <div class="card area-card h-100 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">{{ area.name }}</h5>
+        <p class="text-muted mb-2">{{ area.city }}{% if area.district %} &middot; {{ area.district }}{% endif %}</p>
+        <div class="rating-badge mb-1">
+          {{ stars(ratings['overall_rating']) }}
+          <span>{{ '%.1f' | format(ratings['overall_rating']) }} / 5.0</span>
+        </div>
+        <p class="text-muted small mb-0">{{ area.review_count() }} real resident review{{ 's' if area.review_count() != 1 else '' }}</p>
+      </div>
+    </div>
+  </a>
+</div>
+{%- endmacro %}
+
+{% macro rating_item(label, value) -%}
+<div class="rating-item">
+  <div class="label">{{ label }}</div>
+  <div class="value">{{ '%.1f' | format(value) }}</div>
+</div>
+{%- endmacro %}
