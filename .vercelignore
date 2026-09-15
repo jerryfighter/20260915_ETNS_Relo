@@ -1,0 +1,7 @@
+instance/
+*.db
+.venv/
+venv/
+tests/
+.pytest_cache/
+seed.py

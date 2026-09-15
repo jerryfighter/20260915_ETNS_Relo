@@ -11,3 +11,6 @@ instance/
 .vercel
 node_modules/
 supabase/.temp/
+
+.vercel
+.env*
