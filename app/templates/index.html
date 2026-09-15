@@ -7,20 +7,35 @@
   <div class="container">
     <h1>Find a place that feels right for you.</h1>
     <p class="lead">Real reviews from expats who actually lived in Korea.</p>
+
+    <div class="card search-card mx-auto p-4">
+      <form method="get" action="{{ url_for('main.index') }}" class="d-flex gap-2">
+        <input type="text" name="q" class="form-control form-control-lg" placeholder="Search a city or neighborhood"
+               value="{{ query }}" autofocus>
+        <button type="submit" class="btn btn-lg text-white flex-shrink-0" style="background-color: var(--brand-primary);">Search</button>
+      </form>
+    </div>
   </div>
 </section>
 
 <div class="container">
-  <div class="card search-card mx-auto p-4" style="max-width: 640px;">
-    <form method="get" action="{{ url_for('main.index') }}" class="d-flex gap-2">
-      <input type="text" name="q" class="form-control form-control-lg" placeholder="Search a city or neighborhood"
-             value="{{ query }}" autofocus>
-      <button type="submit" class="btn btn-lg text-white" style="background-color: var(--brand-primary);">Search</button>
-    </form>
+  <div class="stats-bar row text-center">
+    <div class="col-4">
+      <div class="stats-value">{{ stats.area_count }}</div>
+      <div class="stats-label">Areas Covered</div>
+    </div>
+    <div class="col-4">
+      <div class="stats-value">{{ stats.review_count }}</div>
+      <div class="stats-label">Resident Reviews</div>
+    </div>
+    <div class="col-4">
+      <div class="stats-value">{{ stats.member_count }}</div>
+      <div class="stats-label">Expat Members</div>
+    </div>
   </div>
 
   {% if query %}
-    <div class="mt-5">
+    <div class="section">
       <h4>Search results for "{{ query }}"</h4>
       {% if results %}
         <div class="row mt-3">
@@ -34,27 +49,56 @@
     </div>
   {% endif %}
 
-  <div class="mt-5 mb-5">
-    <h4 class="mb-3">Popular Areas</h4>
-    <div class="d-flex flex-wrap gap-2">
+  <div class="section">
+    <div class="d-flex justify-content-between align-items-end mb-3 flex-wrap gap-2">
+      <h4 class="mb-0">Popular Areas</h4>
+      <a href="{{ url_for('area.search') }}" class="small">Browse all areas &rarr;</a>
+    </div>
+    <div class="row">
       {% for area in popular %}
-        <a class="popular-tag" href="{{ url_for('area.detail', area_id=area.id) }}">{{ area.name }}</a>
+        {{ m.area_card(area) }}
       {% endfor %}
     </div>
   </div>
 
-  <div class="row mb-5">
-    <div class="col-md-4 text-center mb-3">
-      <h5>🏠 Real Residents Only</h5>
-      <p class="text-muted">Reviews come from expats who actually lived in the area, not tourists or agents.</p>
+  <div class="section">
+    <h4 class="text-center mb-4">Why etners E-UT</h4>
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="feature-card">
+          <div class="feature-icon">🏠</div>
+          <h5>Real Residents Only</h5>
+          <p class="text-muted mb-0">Reviews come from expats who actually lived in the area, not tourists or agents.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="feature-card">
+          <div class="feature-icon">👨‍👩‍👧</div>
+          <h5>Match Your Situation</h5>
+          <p class="text-muted mb-0">Filter reviews by family type, children, car ownership and work location.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="feature-card">
+          <div class="feature-icon">✅</div>
+          <h5>Verified Residents</h5>
+          <p class="text-muted mb-0">Admin-verified reviews are clearly marked so you know who to trust.</p>
+        </div>
+      </div>
     </div>
-    <div class="col-md-4 text-center mb-3">
-      <h5>👨‍👩‍👧 Match Your Situation</h5>
-      <p class="text-muted">Filter reviews by family type, children, car ownership and work location.</p>
-    </div>
-    <div class="col-md-4 text-center mb-3">
-      <h5>✅ Verified Residents</h5>
-      <p class="text-muted">Admin-verified reviews are clearly marked so you know who to trust.</p>
+  </div>
+
+  <div class="section">
+    <div class="cta-banner d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <h5 class="mb-1">Lived somewhere in Korea?</h5>
+        <p class="text-muted mb-0">Share your experience and help the next expat choose their neighborhood.</p>
+      </div>
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('area.search') }}" class="btn text-white flex-shrink-0" style="background-color: var(--brand-primary);">Write a Review</a>
+      {% else %}
+        <a href="{{ url_for('auth.register') }}" class="btn text-white flex-shrink-0" style="background-color: var(--brand-primary);">Sign Up to Review</a>
+      {% endif %}
     </div>
   </div>
 </div>

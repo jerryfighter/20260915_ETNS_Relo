@@ -28,8 +28,8 @@ body {
 .hero {
   background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-dark) 100%);
   color: #fff;
-  padding: 4.5rem 1rem 5.5rem;
-  border-radius: 0 0 2rem 2rem;
+  padding: 3.5rem 1rem 3rem;
+  border-radius: 0 0 0.75rem 0.75rem;
 }
 
 .hero h1 {
@@ -42,15 +42,66 @@ body {
 }
 
 .search-card {
-  margin-top: -3.5rem;
-  border-radius: 1rem;
+  margin-top: 2rem;
+  max-width: 700px;
+  border-radius: 0.5rem;
   box-shadow: 0 12px 30px rgba(16, 42, 67, 0.15);
   border: none;
 }
 
+.section {
+  margin-top: 3.5rem;
+  margin-bottom: 3.5rem;
+}
+
+.stats-bar {
+  margin-top: 2rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--brand-border);
+}
+
+.stats-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--brand-primary-dark);
+}
+
+.stats-label {
+  font-size: 0.8rem;
+  color: var(--brand-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.feature-card {
+  background: var(--brand-card);
+  border: 1px solid var(--brand-border);
+  border-radius: 0.5rem;
+  padding: 1.75rem 1.5rem;
+  text-align: center;
+  height: 100%;
+}
+
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  margin: 0 auto 1rem;
+  font-size: 1.6rem;
+  background: #fff1e8;
+  border-radius: 50%;
+}
+
+.cta-banner {
+  background: #fff1e8;
+  border: 1px solid var(--brand-border);
+  border-radius: 0.5rem;
+  padding: 1.75rem 2rem;
+}
+
 .card {
   border: 1px solid var(--brand-border);
-  border-radius: 0.85rem;
+  border-radius: 0.5rem;
 }
 
 .area-card {
@@ -93,7 +144,7 @@ body {
 
 .rating-item {
   background: #f1f5f9;
-  border-radius: 0.6rem;
+  border-radius: 0.35rem;
   padding: 0.75rem 1rem;
   text-align: center;
 }
@@ -117,23 +168,6 @@ body {
 
 .review-card.verified {
   border-left-color: #1f9d55;
-}
-
-.popular-tag {
-  display: inline-block;
-  padding: 0.4rem 0.9rem;
-  border-radius: 999px;
-  background: #fff;
-  color: var(--brand-primary-dark);
-  border: 1px solid var(--brand-border);
-  text-decoration: none;
-  font-weight: 600;
-  transition: background 0.15s ease;
-}
-
-.popular-tag:hover {
-  background: var(--brand-primary);
-  color: #fff;
 }
 
 .star-input label {
@@ -168,7 +202,16 @@ body {
 
 footer {
   color: var(--brand-muted);
-  padding: 2rem 0;
+}
+
+.footer-link {
+  color: var(--brand-muted);
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: var(--brand-primary-dark);
+  text-decoration: underline;
 }
 
 @media (max-width: 576px) {

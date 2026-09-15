@@ -1,5 +1,8 @@
 from flask import Blueprint, render_template, request
 
+from app.models.area import Area
+from app.models.review import Review
+from app.models.user import User
 from app.services.area_service import popular_areas, search_areas
 from app.services.recommendation_service import recommend_areas, PRIORITY_FIELDS
 
@@ -10,11 +13,17 @@ main_bp = Blueprint("main", __name__)
 def index():
     query = request.args.get("q", "").strip()
     results = search_areas(query) if query else []
+    stats = {
+        "area_count": Area.query.count(),
+        "review_count": Review.query.count(),
+        "member_count": User.query.count(),
+    }
     return render_template(
         "index.html",
         query=query,
         results=results,
-        popular=popular_areas(),
+        popular=popular_areas(limit=8),
+        stats=stats,
     )
 
 
