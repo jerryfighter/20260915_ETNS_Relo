@@ -59,6 +59,23 @@ def _rating_near(target):
     return max(1, min(5, value))
 
 
+@bootstrap_bp.route("/_bootstrap/status", methods=["GET"])
+def status():
+    token = os.environ.get("SEED_TOKEN")
+    return jsonify(
+        {
+            "seed_token_set": bool(token),
+            "seed_token_length": len(token) if token else 0,
+            "database_url_set": bool(
+                os.environ.get("SUPABASE_DATABASE_URL")
+                or os.environ.get("POSTGRES_URL")
+                or os.environ.get("DATABASE_URL")
+            ),
+            "area_count": Area.query.count(),
+        }
+    )
+
+
 @bootstrap_bp.route("/_bootstrap/seed", methods=["POST"])
 def seed():
     token = os.environ.get("SEED_TOKEN")
