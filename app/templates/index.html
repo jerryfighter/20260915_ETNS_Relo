@@ -3,17 +3,27 @@
 {% block title %}etners E-UT - Find your neighborhood{% endblock %}
 
 {% block content %}
-<section class="hero text-center">
+<section class="hero">
   <div class="container">
-    <h1>Find a place that feels right for you.</h1>
-    <p class="lead">Real reviews from expats who actually lived in Korea.</p>
+    <div class="row align-items-center">
+      <div class="col-lg-7 text-center text-lg-start">
+        <h1>Find a place that feels right for you.</h1>
+        <p class="lead">Real reviews from expats who actually lived in Korea.</p>
 
-    <div class="card search-card mx-auto p-4">
-      <form method="get" action="{{ url_for('main.index') }}" class="d-flex gap-2">
-        <input type="text" name="q" class="form-control form-control-lg" placeholder="Search a city or neighborhood"
-               value="{{ query }}" autofocus>
-        <button type="submit" class="btn btn-lg text-white flex-shrink-0" style="background-color: var(--brand-primary);">Search</button>
-      </form>
+        <div class="card search-card mx-auto mx-lg-0 p-4">
+          <form method="get" action="{{ url_for('main.index') }}" class="d-flex gap-2">
+            <input type="text" name="q" class="form-control form-control-lg" placeholder="Search a city or neighborhood"
+                   value="{{ query }}" autofocus>
+            <button type="submit" class="btn btn-lg text-white flex-shrink-0" style="background-color: var(--brand-primary);">Search</button>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-5 text-center mt-5 mt-lg-0">
+        <div class="hero-photo-frame">
+          <img src="https://images.unsplash.com/photo-1628012209120-d9db7abf7eab?auto=format&fit=crop&w=700&q=80"
+               alt="A modern home exterior in Korea">
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -61,10 +71,7 @@
     </div>
   </div>
 
-</div>
-
-<section class="dark-section">
-  <div class="container">
+  <div class="section">
     <div class="text-center mb-4">
       <span class="section-eyebrow">Why etners E-UT</span>
       <h4 class="mb-0">Built on trust, not guesswork</h4>
@@ -74,28 +81,26 @@
         <div class="feature-card">
           <div class="feature-icon">🏠</div>
           <h5>Real Residents Only</h5>
-          <p class="mb-0">Reviews come from expats who actually lived in the area, not tourists or agents.</p>
+          <p class="text-muted mb-0">Reviews come from expats who actually lived in the area, not tourists or agents.</p>
         </div>
       </div>
       <div class="col-md-4 mb-4">
         <div class="feature-card">
           <div class="feature-icon">👨‍👩‍👧</div>
           <h5>Match Your Situation</h5>
-          <p class="mb-0">Filter reviews by family type, children, car ownership and work location.</p>
+          <p class="text-muted mb-0">Filter reviews by family type, children, car ownership and work location.</p>
         </div>
       </div>
       <div class="col-md-4 mb-4">
         <div class="feature-card">
           <div class="feature-icon">✅</div>
           <h5>Verified Residents</h5>
-          <p class="mb-0">Admin-verified reviews are clearly marked so you know who to trust.</p>
+          <p class="text-muted mb-0">Admin-verified reviews are clearly marked so you know who to trust.</p>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<div class="container">
   <div class="section">
     <div class="cta-banner d-flex justify-content-between align-items-center flex-wrap gap-3">
       <div>

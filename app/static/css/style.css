@@ -2,13 +2,12 @@
   --brand-primary: #ff6d2d;
   --brand-primary-dark: #bf5222;
   --brand-accent: #ff9f5a;
-  --brand-bg: #f6f8fb;
-  --brand-card: #ffffff;
-  --brand-text: #1f2933;
-  --brand-muted: #647184;
-  --brand-border: #e2e8f0;
+  --brand-bg: #0b0c0e;
+  --brand-card: #1a1c20;
+  --brand-text: #f2f3f5;
+  --brand-muted: #9aa0ab;
+  --brand-border: #2a2d33;
   --star-color: #f5a623;
-  --brand-dark: #16181d;
 }
 
 body {
@@ -55,7 +54,7 @@ body {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--brand-primary-dark);
+  color: var(--brand-accent);
   margin-bottom: 0.5rem;
 }
 
@@ -76,12 +75,35 @@ body {
   color: rgba(255, 255, 255, 0.9);
 }
 
+.hero-photo-frame {
+  display: inline-block;
+  border-radius: 1rem;
+  overflow: hidden;
+  max-width: 320px;
+  border: 4px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.hero-photo-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .search-card {
   margin-top: 2rem;
   max-width: 700px;
   border-radius: 0.5rem;
-  box-shadow: 0 12px 30px rgba(16, 42, 67, 0.15);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   border: none;
+  background: #ffffff;
+  color: #1f2933;
+}
+
+.search-card .form-control {
+  background-color: #ffffff;
+  color: #1f2933;
+  border-color: #e2e8f0;
 }
 
 .section {
@@ -98,7 +120,7 @@ body {
 .stats-value {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--brand-primary-dark);
+  color: var(--brand-accent);
 }
 
 .stats-label {
@@ -123,44 +145,15 @@ body {
   line-height: 60px;
   margin: 0 auto 1rem;
   font-size: 1.6rem;
-  background: #fff1e8;
+  background: rgba(255, 109, 45, 0.16);
   border-radius: 50%;
 }
 
 .cta-banner {
-  background: #fff1e8;
+  background: rgba(255, 109, 45, 0.1);
   border: 1px solid var(--brand-border);
   border-radius: 0.5rem;
   padding: 1.75rem 2rem;
-}
-
-.dark-section {
-  background: var(--brand-dark);
-  color: rgba(255, 255, 255, 0.92);
-  padding: 4rem 0;
-  margin-top: 3.5rem;
-}
-
-.dark-section .section-eyebrow {
-  color: var(--brand-accent);
-}
-
-.dark-section .feature-card {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-.dark-section .feature-card h5 {
-  color: #fff;
-}
-
-.dark-section .feature-card p {
-  color: rgba(255, 255, 255, 0.65);
-}
-
-.dark-section .feature-icon {
-  background: rgba(255, 109, 45, 0.18);
-  color: var(--brand-accent);
 }
 
 .card {
@@ -174,7 +167,7 @@ body {
 
 .area-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(16, 42, 67, 0.12);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
 }
 
 .rating-badge {
@@ -182,7 +175,7 @@ body {
   align-items: center;
   gap: 0.35rem;
   font-weight: 700;
-  color: var(--brand-primary-dark);
+  color: var(--brand-accent);
 }
 
 .stars {
@@ -196,7 +189,7 @@ body {
 }
 
 .badge-resident {
-  background-color: #94a3b8;
+  background-color: #64748b;
   color: #fff;
 }
 
@@ -207,7 +200,7 @@ body {
 }
 
 .rating-item {
-  background: #f1f5f9;
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 0.35rem;
   padding: 0.75rem 1rem;
   text-align: center;
@@ -223,7 +216,7 @@ body {
 .rating-item .value {
   font-size: 1.35rem;
   font-weight: 700;
-  color: var(--brand-primary-dark);
+  color: var(--brand-accent);
 }
 
 .review-card {
@@ -236,7 +229,7 @@ body {
 
 .star-input label {
   font-size: 1.4rem;
-  color: #d0d5dd;
+  color: #4a4f58;
   cursor: pointer;
 }
 
@@ -274,13 +267,13 @@ footer {
 }
 
 .footer-link:hover {
-  color: var(--brand-primary-dark);
+  color: var(--brand-accent);
   text-decoration: underline;
 }
 
 @media (max-width: 576px) {
   .hero {
-    padding: 3rem 1rem 4.5rem;
+    padding: 3rem 1rem 2.5rem;
   }
   .hero h1 {
     font-size: 1.8rem;
