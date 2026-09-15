@@ -75,21 +75,6 @@ body {
   color: rgba(255, 255, 255, 0.9);
 }
 
-.hero-photo-frame {
-  display: inline-block;
-  border-radius: 1rem;
-  overflow: hidden;
-  max-width: 320px;
-  border: 4px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-}
-
-.hero-photo-frame img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 .search-card {
   margin-top: 2rem;
   max-width: 700px;
