@@ -9,6 +9,12 @@ from app.extensions import db, migrate, login_manager
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+    app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
+
+    # Deployment-specific cache-buster for static assets. Vercel's edge cache
+    # keys on the request URL, not the deployment, so without this a CSS/JS
+    # change can stay hidden behind a stale cached response until it expires.
+    app.jinja_env.globals["asset_v"] = os.environ.get("VERCEL_GIT_COMMIT_SHA", "dev")
 
     db_uri = app.config.get("SQLALCHEMY_DATABASE_URI", "")
     if db_uri.startswith("sqlite:///") and ":memory:" not in db_uri:
