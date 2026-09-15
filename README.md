@@ -1,4 +1,4 @@
-# ExpatReview Korea
+# etners E-UT
 
 A Flask MVP web application where expats who have actually lived in a Korean neighborhood can
 review it — helping other expats choose where to live based on real experience, not generic
