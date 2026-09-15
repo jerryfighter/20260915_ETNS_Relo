@@ -39,14 +39,12 @@ def create_app(config_class=Config):
     from app.routes.area import area_bp
     from app.routes.review import review_bp
     from app.routes.admin import admin_bp
-    from app.routes.bootstrap import bootstrap_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(area_bp)
     app.register_blueprint(review_bp)
     app.register_blueprint(admin_bp)
-    app.register_blueprint(bootstrap_bp)
 
     @app.errorhandler(403)
     def forbidden(e):
