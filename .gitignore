@@ -8,3 +8,6 @@ instance/
 *.db
 .pytest_cache/
 .vscode/
+.vercel
+node_modules/
+supabase/.temp/

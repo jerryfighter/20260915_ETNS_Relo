@@ -4,4 +4,5 @@ Flask-Migrate==4.0.7
 Flask-Login==0.6.3
 Werkzeug==3.0.4
 python-dotenv==1.0.1
+psycopg2-binary==2.9.9
 pytest==8.3.3

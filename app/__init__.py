@@ -13,7 +13,12 @@ def create_app(config_class=Config):
     db_uri = app.config.get("SQLALCHEMY_DATABASE_URI", "")
     if db_uri.startswith("sqlite:///") and ":memory:" not in db_uri:
         db_path = db_uri.replace("sqlite:///", "", 1)
-        os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        try:
+            os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        except OSError:
+            # Read-only filesystem (e.g. a serverless deployment with no
+            # cloud DATABASE_URL configured yet) - nothing we can do locally.
+            pass
 
     db.init_app(app)
     migrate.init_app(app, db)
